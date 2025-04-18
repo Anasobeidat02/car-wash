@@ -3,10 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <!-- <link rel="stylesheet" href="styles/index.css"> -->
-  <link rel="login" href="js/login.js">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
   <style>
     @keyframes bubble {
       0% { transform: scale(1); opacity: 0.1; }
@@ -32,7 +29,6 @@
 
     .icon {
       text-align: center;
-      font-family: 'Arial', sans-serif;
       font-size: 60px;
       margin-top: -30px;
       color: white;
@@ -60,8 +56,7 @@
       font-size: 18px;
     }
 
-    .form-section input,
-    .form-section select {
+    .form-section input {
       width: 100%;
       padding: 10px;
       font-size: 14px;
@@ -69,23 +64,11 @@
       background: linear-gradient(135deg, #00aabb, #004d66);
       color: white;
       border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     .password-wrapper {
       position: relative;
       width: 100%;
-    }
-
-    .password-wrapper input {
-      width: 100%;
-      padding: 10px 45px 10px 10px;
-      font-size: 14px;
-      border-radius: 50px;
-      background: linear-gradient(135deg, #00aabb, #004d66);
-      color: white;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     .password-wrapper i {
@@ -100,19 +83,26 @@
 
     #loginButton {
       display: block;
-      width: fit-content;
       margin: 0 auto;
-      text-align: center;
       padding: 10px 25px;
-      font-size: 27px;
+      font-size: 20px;
       font-weight: bold;
       background: linear-gradient(135deg, #00aabb, #004d66);
       color: #fff;
       border: none;
       border-radius: 50px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    #message {
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .error {
+      color: #ff4d4d;
     }
   </style>
 </head>
@@ -127,8 +117,8 @@
       </div>
 
       <div class="form-section">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <label for="Email">Email:</label>
+        <input type="text" id="Email" name="Email" required>
       </div>
 
       <div class="form-section">
@@ -139,37 +129,66 @@
         </div>
       </div>
 
-      <div class="form-section">
-        <label for="role">Select Role:</label>
-        <select id="role" name="role" required style="background-color: #002b36;">
-          <option value="">Select User System</option>
-          <option value="customer">Customer</option>
-          <option value="manager">Manager</option>
-          <option value="employee">Employee</option>
-        </select>
-      </div>
+      <div id="message"></div>
 
-      <div id="message" style="margin-bottom: 10px; text-align: center; font-size: 13px;"></div>
       <div style="text-align: center; margin-top: 10px;">
-        <span style="color: white;">Dont have an account?</span>
-        <a href="/signUp" style="color: #00ffff; text-decoration: underline;">Sign UP</a>
+        <span style="color: white;">Don't have an account?</span>
+        <a href="/signUp" style="color: #00ffff; text-decoration: underline;">Sign Up</a>
       </div>
-      <a href="home1.html" id="loginButton">Login</a>
-    </form>
 
+      <button type="submit" id="loginButton">Login</button>
+    </form>
   </div>
 
-  <script>
+  <!-- <script>
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
+    const form = document.getElementById("loginForm");
+    const messageBox = document.getElementById("message");
 
     togglePassword.addEventListener("click", () => {
-        const type = passwordField.type === "password" ? "text" : "password";
-        passwordField.type = type;
-        togglePassword.classList.toggle("bx-show");
-        togglePassword.classList.toggle("bx-hide");
+      const type = passwordField.type === "password" ? "text" : "password";
+      passwordField.type = type;
+      togglePassword.classList.toggle("bx-show");
+      togglePassword.classList.toggle("bx-hide");
     });
-</script>
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("Email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        messageBox.textContent = "Please fill in all fields.";
+        messageBox.classList.add("error");
+        return;
+      }
+
+      try {
+        const response = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageBox.textContent = "Login successful! Redirecting...";
+          messageBox.classList.remove("error");
+          setTimeout(() => window.location.href = "home1.html", 1500);
+        } else {
+          messageBox.textContent = data.message || "Incorrect email or password.";
+          messageBox.classList.add("error");
+        }
+      } catch (error) {
+        messageBox.textContent = "An error occurred. Please try again later.";
+        messageBox.classList.add("error");
+      }
+    });
+  </script> -->
+  <script src="js/login.js" defer></script>
 
 </body>
 </html>

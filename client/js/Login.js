@@ -1,46 +1,39 @@
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-import React, { useState } from 'react';
+  const email = document.getElementById("Email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const messageBox = document.getElementById("message");
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  if (!email || !password) {
+    messageBox.textContent = "Please fill in all fields.";
+    messageBox.classList.add("error");
+    return;
+  }
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (!username || !password) {
-      setError('يرجى إدخال اسم المستخدم وكلمة المرور.');
-      return;
+  try {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      messageBox.textContent = "Login successful! Redirecting...";
+      messageBox.classList.remove("error");
+      setTimeout(() => {
+        window.location.href = "home1.html";
+      }, 1500);
+    } else {
+      messageBox.textContent = data.message || "Incorrect email or password.";
+      messageBox.classList.add("error");
     }
-    if (password.length < 8) {
-      setError('يجب أن تكون كلمة المرور 8 أحرف على الأقل.');
-      return;
-    }
-    // هنا يمكن إضافة منطق لتسجيل الدخول مثل إرسال الطلب إلى الخادم
-    alert('تم تسجيل الدخول بنجاح!');
-  };
-
-  return (
-    <div>
-      <h2>تسجيل الدخول</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="اسم المستخدم"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="كلمة المرور"
-        />
-        <button type="submit">تسجيل الدخول</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </form>
-    </div>
-  );
-};
-
-export default Login;
+  } catch (err) {
+    messageBox.textContent = "An error occurred. Please try again.";
+    messageBox.classList.add("error");
+  }
+});
