@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up</title>
   <link rel="stylesheet" href="index.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
   <style>
     @keyframes bubble {
       0% { transform: scale(1); opacity: 0.1; }
@@ -123,10 +123,7 @@
 </head>
 <body>
   <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #004d66;">
-    <form id="loginForm">
-      <div style="position: absolute; top: -50px; right: -50px; width: 120px; height: 120px; background-color: #003d4d; border-radius: 50%; opacity: 0.1; animation: bubble 6s infinite;"></div>
-      <div style="position: absolute; bottom: -50px; left: -50px; width: 120px; height: 120px; background-color: #003d4d; border-radius: 50%; opacity: 0.1; animation: bubble 8s infinite;"></div>
-
+    <form id="signupForm">
       <div class="icon">
         <i class='bx bx-user-plus'></i>
       </div>
@@ -151,28 +148,30 @@
 
       <div class="form-section">
         <label for="role">Select Role:</label>
-        <select id="role" name="role" required style="background-color: #002b36;">
+        <select id="role" name="role" required>
           <option value="">Select User System</option>
           <option value="customer">Customer</option>
           <option value="manager">Manager</option>
           <option value="employee">Employee</option>
         </select>
       </div>
+
       <div style="text-align: center; margin-top: 10px;">
         <span style="color: white;">Already have an account?</span>
-        <a href="login.html" style="color: #00ffff; text-decoration: underline;">Sign in</a>
-        </div>
+        <a href="/login" style="color: #00ffff; text-decoration: underline;">Sign in</a>
+      </div>
+
       <div id="message" style="margin-bottom: 10px; text-align: center; font-size: 13px;"></div>
 
-      <a href="home1.html" id="signupButton">Sign Up</a>
+      <button type="submit" id="signupButton">Sign Up</button>
     </form>
   </div>
 
   <script>
+    // toggle password visibility
     document.getElementById("togglePassword").addEventListener("click", function () {
       const passwordField = document.getElementById("password");
       const icon = document.getElementById("togglePassword");
-
 
       if (passwordField.type === "password") {
         passwordField.type = "text";
@@ -184,24 +183,18 @@
         icon.classList.add("bx-show");
       }
     });
-    <div>
-<form>
-            <p style="text-align: center; margin-top: 20px; color: #003d4d; font-size: 16px; font-family: 'Arial', sans-serif;">
-               Already have an account? <a href="login.html" style="color: #067c99; font-weight: bold; text-decoration: none;">Login here</a>
-            </p>
-        </form>
-    </div>
 
-
-    document.getElementById("signupButton").addEventListener("click", async function (event) {
+    // form submission
+    document.getElementById("signupForm").addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      let username = document.getElementById("username").value.trim();
-      let email = document.getElementById("email").value.trim();
-      let password = document.getElementById("password").value.trim();
-      let role = document.getElementById("role").value;
-      let message = document.getElementById("message");
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+      const message = document.getElementById("message");
 
+      // Validation
       if (username.length < 3) {
         message.textContent = "Username must be at least 3 characters!";
         message.style.color = "red";
@@ -223,103 +216,33 @@
         return;
       }
 
-      let userData = {
-        username: username,
-        email: email,
-        password: password,
-        role: role
-      };
-
-      const apiUrl = "https://your-api.com/auth/login";
+      // Prepare data
+      const userData = { username, email, password, role };
 
       try {
-        let response = await fetch(apiUrl, {
+        const response = await fetch("http://localhost:3000/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(userData)
         });
 
-        let data = await response.json();
-
+        const data = await response.json();
 
         if (response.ok) {
-          message.textContent = "Login successful!";
+          message.textContent = "Signup successful!";
           message.style.color = "green";
-          if (data.token) localStorage.setItem("authToken", data.token);
-          window.location.href = "frontend/home.html";
+          // Optionally redirect
+          setTimeout(() => window.location.href = "login.html", 1000);
         } else {
-          message.textContent = data.message || "Login failed! Please check your credentials.";
+          message.textContent = data.message || "Signup failed!";
           message.style.color = "red";
         }
       } catch (error) {
-        message.textContent = "An error occurred while connecting to the server!";
+        message.textContent = "Server error! Please try again.";
         message.style.color = "red";
-        console.error("Error:", error);
+        console.error(error);
       }
     });
-  
-
-            let username = document.getElementById("username").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let role = document.getElementById("role").value;
-            let message = document.getElementById("message");
-
-            if (username.length < 3) {
-                message.textContent = "Username must be at least 3 characters!";
-                message.style.color = "red";
-                return;
-            }
-            if (!email.includes("@")) {
-                message.textContent = "Please enter a valid email!";
-                message.style.color = "red";
-                return;
-            }
-            if (password.length < 6) {
-                message.textContent = "Password must be at least 6 characters!";
-                message.style.color = "red";
-                return;
-            }
-            if (!role) {
-                message.textContent = "Please select a role!";
-                message.style.color = "red";
-                return;
-            }
-
-            let userData = {
-                username: username,
-                email: email,
-                password: password,
-                role: role
-            };
-
-            const apiUrl = "https://your-api.com/auth/register";
-
-            try {
-                let response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(userData)
-                });
-
-                let data = await response.json();
-
-                if (response.ok) {
-                    message.textContent = "Login successful!";
-                    message.style.color = "green";
-                    if (data.token) localStorage.setItem("authToken", data.token);
-                    window.location.href = "frontend/home.html";
-                } else {
-                    message.textContent = data.message || "Login failed! Please check your credentials.";
-                    message.style.color = "red";
-                }
-            } catch (error) {
-                message.textContent = "An error occurred while connecting to the server!";
-                message.style.color = "red";
-                console.error("Error:", error);
-            }
-       ;
-    </script>
-
+  </script>
 </body>
 </html>

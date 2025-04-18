@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
 app.get("/signUp", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "sign up.html"));
 });
-
+ 
 // ✅ تسجيل مستخدم جديد
 app.post("/signup", async (req, res) => {
   try {
@@ -96,10 +96,11 @@ app.post("/signup", async (req, res) => {
     console.error("Signup Error:", error.message);
     res.status(500).json({ message: "Server error" });
   }
-});
-
+}); 
+ 
 const PORT = process.env.PORT || 3000;
 console.log("Mongo URI:", process.env.MONGO_URI);
 app.listen(3000, () => {
   console.log(` Server is running on port ${PORT}`);
 });
+  
