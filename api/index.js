@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
+const SECRET = process.env.JWT_SECRET;
 const path = require("path");
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRouters = require("./routers/userRouters");
@@ -28,36 +30,44 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // تحقق من وجود الحقول المطلوبة
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }
 
   try {
-    // البحث عن المستخدم في قاعدة البيانات
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Incorrect email or password" });
     }
 
-    // مقارنة الباسوورد المدخل مع الباسوورد المخزن
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Incorrect email or password" });
     }
 
-    // تسجيل الدخول ناجح
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        user: { username: user.username, email: user.email, role: user.role },
-      });
+    // ✅ هون بنصدر التوكن بعد التحقق من كلمة السر
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      SECRET,
+      { expiresIn: "2h" }
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+
   } catch (error) {
     console.error("Login Error:", error.message);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 app.get("/signUp", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "sign up.html"));
@@ -95,7 +105,7 @@ app.post("/signup", async (req, res) => {
   } catch (error) {
     console.error("Signup Error:", error.message);
     res.status(500).json({ message: "Server error" });
-  }
+  } 
 }); 
  
 const PORT = process.env.PORT || 3000;
