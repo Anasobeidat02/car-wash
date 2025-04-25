@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f8f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 25px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #00e6e6;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 13px;
+      color: #444;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+    }
+
+    .form-group button {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background: linear-gradient(135deg, #00aabb, #004d66);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #004d40;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      color: #444;
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: #00aabb;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .social-login {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .social-login p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    .social-icons a:hover {
+      background-color: #e0e0e0;
+    }
+
+    .social-icons img {
+      width: 22px;
+      height: 22px;
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 12px;
+      }
+
+      .form-group label,
+      .form-group input,
+      .form-group select {
+        font-size: 12px;
+      }
+
+      .form-group button {
+        font-size: 13px;
+        padding: 9px;
+      }
+
+      .footer {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Sign Up</h1>
+    <p>Choose your role & sign up</p>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Select Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="customer">Customer</option>
+          <option value="manager">Manager</option>
+          <option value="employee">Employee</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit">Sign Up</button>
+    </div>
+
+    <div class="social-login">
+      <p>or sign up using</p>
+      <div class="social-icons">
+          <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div>
+          <div>
+            <div id="g_id_onload"
+            data-client_id="125948482176-uoellcrg04oqg6bsjb3fujq9ktak9sje.apps.googleusercontent.com"
+            data-context="signup"
+            data-ux_mode="popup"
+            data-callback="signUpCallback"
+            data-auto_prompt="false">
+       </div>
+       
+       <div class="g_id_signin"
+            data-type="icon"
+            data-shape="square"
+            data-theme="filled_black"
+            data-text="signup_with"
+            data-size="large">
+       </div>
+          </div>
+        <!-- <a href="#"><img src="fac.png" alt="Facebook"></a>
+        <a href="#"><img src="google (1).png" alt="Google"></a> -->
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+    <div id="message" style="margin-bottom: 10px; text-align: center; font-size: 13px;"></div>
+
+    
+  </form>
+</div>
+
+<script>
+    // إظهار/إخفاء الباسورد
+    document.getElementById("togglePassword")?.addEventListener("click", function () {
+      const passwordField = document.getElementById("password");
+      const icon = document.getElementById("togglePassword");
+  
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove("bx-show");
+        icon.classList.add("bx-hide");
+      } else {
+        passwordField.type = "password";
+        icon.classList.remove("bx-hide");
+        icon.classList.add("bx-show");
+      }
+    });
+  
+    // كولباك تسجيل الدخول من جوجل
+    async function signUpCallback(response) {
+      const userInfo = jwt_decode(response.credential);
+      console.log("Google user info:", userInfo);
+  
+      const username = userInfo.name || "";
+      const email = userInfo.email || "";
+      const role = "customer"; // ديفولت role
+  
+      // ما في باسورد لأنو Google login
+      const userData = { username, email, password: null, role };
+  
+      try {
+        const res = await fetch("http://localhost:3000/signup/google", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+  
+        const data = await res.json();
+  
+        if (res.ok) {
+          alert("Signup successful with Google!");
+          window.location.href = "login.html";
+        } else {
+          alert(data.message || "Signup failed");
+        }
+      } catch (err) {
+        console.error("Signup error:", err);
+        alert("Server error. Try again.");
+      }
+    }
+  
+    // إرسال النموذج التقليدي
+    document.getElementById("signupForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+  
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+      const message = document.getElementById("message");
+  
+      if (username.length < 3 || !email.includes("@") || password.length < 6 || !role) {
+        message.textContent = "Please fill out the form correctly.";
+        message.style.color = "red";
+        return;
+      }
+  
+      const userData = { username, email, password, role };
+  
+      try {
+        const response = await fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          message.textContent = "Signup successful!";
+          message.style.color = "green";
+          setTimeout(() => window.location.href = "login.html", 1000);
+        } else {
+          message.textContent = data.message || "Signup failed!";
+          message.style.color = "red";
+        }
+      } catch (error) {
+        message.textContent = "Server error! Please try again.";
+        message.style.color = "red";
+        console.error(error);
+      }
+    });
+  </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/jwt-decode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  
+<!-- <script src="https://accounts.google.com/gsi/client" async></script> -->
+</body>
+</html>
